@@ -12,6 +12,7 @@ sudo apt install apache2 -y
 sudo systemctl status apache2
 
 #adjust ufw firewall
+sudo ufw enable
 sudo ufw status
 sudo ufw allow OpenSSH
 sudo ufw allow 'Apache Full'
