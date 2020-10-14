@@ -3,11 +3,10 @@
 set -e
 
 #check for update and then upgrade ubuntu
-sudo apt update -y \
-sudo apt full-upgrade -y	
+sudo apt update -y && sudo apt full-upgrade -y	
 
 #installing apache
-sudo apt install apache2
+sudo apt install apache2 -y
 
 #check apache
 sudo systemcl status apache2
@@ -28,4 +27,4 @@ sudo apt install php7.3 -y
 sudo systemctl restart apache2
 
 #installing php moduls
-sudo apt install php7.3-common php7.3-opcache php7.3-cli php7.3-gd php7.3-curl php7.3-mysql
+sudo apt install php7.3-common php7.3-opcache php7.3-cli php7.3-gd php7.3-curl php7.3-mysql -y
