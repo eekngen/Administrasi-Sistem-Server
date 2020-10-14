@@ -9,7 +9,7 @@ sudo apt update -y && sudo apt full-upgrade -y
 sudo apt install apache2 -y
 
 #check apache
-sudo systemcl status apache2
+sudo systemctl status apache2
 
 #adjust ufw firewall
 sudo ufw status
