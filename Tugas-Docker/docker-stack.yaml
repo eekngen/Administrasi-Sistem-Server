@@ -1,0 +1,59 @@
+version: '3.9'
+services:
+  mariadb:
+    image: bitnami/mariadb:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_moodle
+      - MARIADB_DATABASE=bitnami_moodle
+    volumes:
+      - 'mariadb_data:/bitnami/mariadb'
+    # ports:
+    #   - '3306:3306'
+    networks:
+      - db
+    deploy:
+      # mode: global
+      replicas: 2
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - node.hostname!=ip-172-31-95-220
+  moodle:
+    image: bitnami/moodle:latest
+    ports:
+      - '443:8443'
+      - '80:8080'
+    environment:
+# commend MOODLE_SKIP_BOOTSRAP apabila baru pertamakali menjalankan moolde (inisialisasi)
+      - MOODLE_SKIP_BOOTSTRAP=yes
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=bn_moodle
+      - MOODLE_DATABASE_NAME=bitnami_moodle
+      - MOODLE_USERNAME=eekngen
+      - MOODLE_PASSWORD=gedanggoreng
+      - ALLOW_EMPTY_PASSWORD=yes
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.hostname!=ip-172-31-95-220
+    networks:
+      - db
+    volumes:
+      - 'moodle_data:/bitnami/moodle'
+      - 'moodledata_data:/bitnami/moodledata'
+    depends_on:
+          - mariadb
+volumes:
+  mariadb_data:
+    driver: local
+  moodle_data:
+    driver: local
+  moodledata_data:
+    driver: local
+networks:
+  db:
+    driver: overlay
+    external: true
